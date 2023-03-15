@@ -1,58 +1,93 @@
 import { useAppSelector } from "../../hooks";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
+import { Display } from "./../Blocks/Display";
+import { Signs } from "./../Blocks/Signs";
+import { Numbers } from "./../Blocks/Numbers";
+import { Equal } from "./../Blocks/Equal";
+import styled from "styled-components";
 
+interface StyledContainerProps {
+  isDragging: boolean;
+  ref: any;
+}
+interface StyledColumnProps {
+  isDraggingOver: boolean;
+  ref: any;
+}
 // @flow
-type Props = {};
+export const Container = styled.div<StyledContainerProps>`
+  // border: 1px solid lightgrey;
+  // border-radius: 2px;
+  padding: 4px;
+  box-shadow: 0px 1px 8px 1px rgba(34, 60, 80, 0.2);
+  border-radius: 7px;
+  margin-bottom: 8px;
+  background-color: ${(props: any) =>
+    props.isDragging ? "lightgreen" : "white"};
+`;
+
+export const TaskList = styled.div<StyledColumnProps>`
+  padding: 8px;
+  transition: background-color 0.2s ease;
+  background-color: ${(props: any) =>
+    props.isDraggingOver ? "skyblue" : "white"};
+  flex-grow: 1;
+  height: 100%;
+`;
+export type Props = {
+  column: any;
+};
 export const Elements = (props: Props) => {
-  const counter = useAppSelector((store) => store?.value);
-  const [lst, setLst] = useState<any>([{ id: 1 }, { id: 2 }, { id: 3 }]);
-  const reorder = (list: any, startIndex: any, endIndex: any) => {
-    console.log("yeeap");
+  //   const counter = useAppSelector((store) => store?.value);
 
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-  const onDragEnd = (result: any) => {
-    console.log(123123123);
-
-    if (!result.destination) {
-      return;
-    }
-    const items = reorder(lst, result.source.index, result.destination.index);
-    setLst(items);
-  };
   // ref={provided.innerRef}{...provided.dragHandleProps}{...provided.draggableProps}
+  const tasks = useAppSelector((state) => state.columns.columns.elements);
+  //   const tasksData: any = useAppSelector(
+  //     (state) => state.columns.elementsDescription
+  //   );
+  console.log("elements rendered");
+
+  const components: any = {
+    el1: Display,
+    el2: Signs,
+    el3: Numbers,
+    el4: Equal,
+  };
   return (
-    <div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="0">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {lst.map((el: any, step: any) => {
-                return (
-                  <Draggable draggableId={`${el.id}`} index={step} key={el.id}>
-                    {(provided) => (
-                      <div
-                        className="p-10 border-2 border-red-500 mb-2"
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      >
-                        {el.id}
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+    <div className="w-[248px] h-[440px]">
+      <Droppable droppableId={"elements"}>
+        {(provided, snapshot: any) => (
+          <TaskList
+            id="elem-taskList"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+            className="h-full"
+          >
+            {tasks.map((task: any, index: any) => {
+              const Component = components[task];
+              return (
+                <Draggable draggableId={task} key={task} index={index}>
+                  {(provided, snapshot) => (
+                    <Container
+                      id={task}
+                      key={task}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                      isDragging={snapshot.isDragging}
+                    >
+                      <Component />
+                    </Container>
+                  )}
+                </Draggable>
+              );
+            })}
+            {provided.placeholder}
+          </TaskList>
+        )}
+      </Droppable>
     </div>
   );
 };
