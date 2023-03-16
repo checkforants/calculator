@@ -40,7 +40,7 @@ function modeReducer(state: boolean = isRuntimeModeInitialValue, action: any) {
 const rootReducer = combineReducers({
   columns: columnsReducer,
   display: displayReducer,
-  mode: modeReducer,
+  isRuntimeMode: modeReducer,
 });
 export const store = createStore(rootReducer, composeWithDevTools());
 store.subscribe(() => console.log(store.getState()));

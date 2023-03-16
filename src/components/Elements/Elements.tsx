@@ -23,23 +23,24 @@ export const Container = styled.div<StyledContainerProps>`
   box-shadow: 0px 1px 8px 1px rgba(34, 60, 80, 0.2);
   border-radius: 7px;
   margin-bottom: 8px;
-  background-color: ${(props: any) =>
-    props.isDragging ? "lightgreen" : "white"};
+  background-color: ${(props: any) => (props.isDragging ? "#b3b3ff" : "white")};
 `;
 
 export const TaskList = styled.div<StyledColumnProps>`
   padding: 8px;
   transition: background-color 0.2s ease;
   background-color: ${(props: any) =>
-    props.isDraggingOver ? "skyblue" : "white"};
+    props.isDraggingOver ? "#b3f0ff" : "white"};
   flex-grow: 1;
   height: 100%;
+  border-radius: 10px;
 `;
 export type Props = {
   column: any;
 };
 export const Elements = (props: Props) => {
   //   const counter = useAppSelector((store) => store?.value);
+  const isRuntimeMode = useAppSelector((state) => state.isRuntimeMode);
 
   // ref={provided.innerRef}{...provided.dragHandleProps}{...provided.draggableProps}
   const tasks = useAppSelector((state) => state.columns.columns.elements);

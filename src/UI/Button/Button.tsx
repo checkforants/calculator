@@ -18,26 +18,29 @@ type Props = {
 };
 export const Button = ({ additionalStyle, children, type, value }: Props) => {
   const dispatch = useAppDispatch();
-  const display = useAppSelector((state) => state.display);
+  const isRuntimeMode: boolean = useAppSelector((state) => state.isRuntimeMode);
+  console.log(isRuntimeMode);
+
   // console.log(type);
   const handleClicks = (e: any) => {
+    if (!isRuntimeMode) return;
     if (type === "subtract") {
-      dispatch(subtraction(display));
+      dispatch(subtraction());
     } else if (type === "multiply") {
-      dispatch(multiplication(display));
+      dispatch(multiplication());
     } else if (type === "divide") {
-      dispatch(division(display));
+      dispatch(division());
     } else if (type === "add") {
-      dispatch(addition(children));
+      dispatch(addition());
     } else if (type === "equals") {
-      dispatch(equal(display));
+      dispatch(equal());
     } else {
       dispatch(updateDisplay(children));
     }
   };
   return (
     <div
-      className={`h-[52px] rounded border-2 font-medium border-solitude flex justify-center items-center decoration-black leading-4 ${additionalStyle}`}
+      className={`h-[52px] rounded border-2 font-medium border-solitude bg-display flex justify-center items-center decoration-black leading-4 ${additionalStyle}`}
       onClick={(e: React.MouseEvent) => handleClicks(e)}
     >
       {children}

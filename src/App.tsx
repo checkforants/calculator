@@ -6,7 +6,6 @@ import { useAppSelector, useAppDispatch } from "./hooks";
 import { Canvas } from "./components/Canvas/Canvas";
 import { Elements } from "./components/Elements/Elements";
 
-
 function App() {
   const dispatch = useAppDispatch();
   const reorder = (list: any, startIndex: any, endIndex: any) => {
@@ -18,25 +17,38 @@ function App() {
 
     return result;
   };
+  const columns = useAppSelector((state: any) => state.columns);
+
   const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
     console.log(result);
 
-    if (!destination) {
-      return;
-    }
+    if (!destination && source?.droppableId === "canvas") {
+      console.log("daaaa");
 
+      // const elem = columns.columns[startColumn][startIndex];
+      const endColumnItems = [...columns.columns["elements"], draggableId];
+      const newColumns = {
+        canvas: columns.columns["canvas"].filter(
+          (x: string) => x != draggableId
+        ),
+        elements: endColumnItems,
+      };
+      console.log(newColumns);
+
+      dispatch({ type: "REORDER_COLUMNS", payload: { ...newColumns } });
+    }
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
       return;
     }
+    const startColumn = source?.droppableId;
+    const startIndex = source?.index;
 
-    const startColumn = source.droppableId;
-    const startIndex = source.index;
-    const endColumn = destination.droppableId;
-    const endIndex = destination.index;
+    const endIndex = destination?.index;
+    const endColumn = destination?.droppableId;
     if (startColumn === endColumn) {
       const items = reorder(columns.columns[startColumn], startIndex, endIndex);
       //   console.log(columns.columns);
@@ -61,7 +73,6 @@ function App() {
       dispatch({ type: "REORDER_COLUMNS", payload: { ...newColumns } });
     }
   };
-  const columns = useAppSelector((state: any) => state.columns);
 
   return (
     <div className=" flex justify-center items-center pt-9 h-full ">

@@ -17,42 +17,42 @@ export const updateDisplay = (content: any) => ({
   },
 });
 
-export const addition = (content: any) => ({
+export const addition = () => ({
   type: ADD,
   payload: {
     operation: "operator",
   },
 });
 
-export const subtraction = (content: any) => ({
+export const subtraction = () => ({
   type: SUBTRACT,
   payload: {
     operation: "operator",
   },
 });
 
-export const multiplication = (content: any) => ({
+export const multiplication = () => ({
   type: MULTIPLY,
   payload: {
     operation: "operator",
   },
 });
 
-export const division = (content: any) => ({
+export const division = () => ({
   type: DIVIDE,
   payload: {
     operation: "operator",
   },
 });
 
-export const clearDisplay = (content: any) => ({
+export const clearDisplay = () => ({
   type: CLEAR,
   payload: {
     operation: "clear",
   },
 });
 
-export const equal = (content: any) => ({
+export const equal = () => ({
   type: EQUAL,
   payload: {
     operation: "equal",

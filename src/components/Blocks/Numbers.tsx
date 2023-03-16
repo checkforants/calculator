@@ -1,9 +1,11 @@
 // @flow
 import * as React from "react";
+import { useAppSelector } from "../../hooks";
 import { Button } from "../../UI/Button/Button";
 type Props = {};
-export const Numbers = (props: Props) => {
+export const Num = (props: Props) => {
   const numbers = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "0", ","];
+
 
   return (
     <div className="grid grid-cols-3 grid-flow-row gap-2">
@@ -20,3 +22,4 @@ export const Numbers = (props: Props) => {
     </div>
   );
 };
+export const Numbers = React.memo(Num);

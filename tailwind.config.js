@@ -8,6 +8,7 @@ module.exports = {
         benAfleck: "#4D5562",
         iris: "#5D5FEF",
         display: "#F3F4F6",
+				d2:'rgba(77, 0, 102, 0.3)'
       },
     },
   },

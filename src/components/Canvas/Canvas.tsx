@@ -14,10 +14,8 @@ import { Container, TaskList } from "./../Elements/Elements";
 
 export const Canvas = (props: Props) => {
   const tasks = useAppSelector((state) => state.columns.columns.canvas);
-  const tasksData: any = useAppSelector(
-    (state) => state.columns.elementsDescription
-  );
   console.log("canvas rendered");
+  const isRuntimeMode = useAppSelector((state) => state.isRuntimeMode);
 
   const components: any = {
     el1: Display,
@@ -26,12 +24,12 @@ export const Canvas = (props: Props) => {
     el4: Equal,
   };
   return (
-    <div className="w-[248px] h-[420px] relative flex justify-center items-center">
+    <div className="w-[248px] h-[440px] relative flex justify-center items-center">
       <ModeToggler></ModeToggler>
       {tasks.length > 0 ? (
         ""
       ) : (
-        <div className="border-2 border-dashed w-full h-full flex flex-col justify-center items-center text-center absolute z-0">
+        <div className="border-2 border-dashed w-full h-full flex flex-col justify-center items-center text-center absolute z-0 rounded- [10px]">
           <img src={require("../../images/canvas.png")}></img>
           <div className="text-iris font-medium mb-[4px] mt-[12px]">
             Перетащите сюда
