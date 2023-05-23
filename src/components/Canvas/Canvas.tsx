@@ -52,7 +52,12 @@ export const Canvas = (props: Props) => {
             {tasks.map((task: any, index: any) => {
               const Component = components[task];
               return (
-                <Draggable draggableId={task} key={task} index={index}>
+                <Draggable
+                  draggableId={task}
+                  key={task}
+                  index={index}
+                  isDragDisabled={isRuntimeMode}
+                >
                   {(provided, snapshot) => (
                     <Container
                       id={task}

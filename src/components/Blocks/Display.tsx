@@ -7,7 +7,7 @@ export const Disp = (props: Props) => {
 
   return (
     <div className="">
-      <div className="bg-[#f2e6ff] rounded-md h-[35px] w-full text-right items-center text-2xl color-black font-extrabold">
+      <div className="bg-[#f2e6ff] rounded-md h-[35px] w-full text-right items-center text-2xl color-black font-extrabold pr-2 pt-[1px]">
         {display.display == "" ? "Не определено" : display.display}
       </div>
     </div>

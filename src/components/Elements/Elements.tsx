@@ -1,6 +1,5 @@
 import { useAppSelector } from "../../hooks";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Display } from "./../Blocks/Display";
 import { Signs } from "./../Blocks/Signs";
 import { Numbers } from "./../Blocks/Numbers";
@@ -39,14 +38,10 @@ export type Props = {
   column: any;
 };
 export const Elements = (props: Props) => {
-  //   const counter = useAppSelector((store) => store?.value);
   const isRuntimeMode = useAppSelector((state) => state.isRuntimeMode);
 
-  // ref={provided.innerRef}{...provided.dragHandleProps}{...provided.draggableProps}
   const tasks = useAppSelector((state) => state.columns.columns.elements);
-  //   const tasksData: any = useAppSelector(
-  //     (state) => state.columns.elementsDescription
-  //   );
+
   console.log("elements rendered");
 
   const components: any = {
@@ -55,6 +50,8 @@ export const Elements = (props: Props) => {
     el3: Numbers,
     el4: Equal,
   };
+	type MyArrayType = Array<string | Array<string>>;
+
   return (
     <div className="w-[248px] h-[440px]">
       <Droppable droppableId={"elements"}>
@@ -69,7 +66,12 @@ export const Elements = (props: Props) => {
             {tasks.map((task: any, index: any) => {
               const Component = components[task];
               return (
-                <Draggable draggableId={task} key={task} index={index}>
+                <Draggable
+                  draggableId={task}
+                  key={task}
+                  index={index}
+                  isDragDisabled={isRuntimeMode}
+                >
                   {(provided, snapshot) => (
                     <Container
                       id={task}

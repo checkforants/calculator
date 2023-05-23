@@ -40,7 +40,7 @@ export const Button = ({ additionalStyle, children, type, value }: Props) => {
   };
   return (
     <div
-      className={`h-[52px] rounded border-2 font-medium border-solitude bg-display flex justify-center items-center decoration-black leading-4 ${additionalStyle}`}
+      className={`h-[52px] rounded border-2 shadow-button font-medium border-solitude bg-display flex justify-center items-center decoration-black leading-4 ${additionalStyle}`}
       onClick={(e: React.MouseEvent) => handleClicks(e)}
     >
       {children}

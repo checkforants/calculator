@@ -12,34 +12,24 @@ import * as _ from "lodash";
 const initialState = {
   display: "0",
   prevOp: "",
-  accumulated: "0",
   history: "0",
 };
 type stType = {
   display: string;
   prevOp: string;
-  accumulated: string;
   history: string;
 };
-function hasOperator(history: string) {
-  const operators = ["/", "+", "*", "-"];
-  return operators.reduce((res, op) => res || history.includes(op), false);
-}
-// accumulated: hasOperator(state.history)
-// ? math.evaluate(
-// 		state.history.replace(",", ".") +
-// 			state.display.replace(",", ".")
-// 	)
-// : state.accumulated,
-// const math = create(all);
-// eslint-disable-next-line import/no-anonymous-default-export
+// function hasOperator(history: string) {
+//   const operators = ["/", "+", "*", "-"];
+//   return operators.reduce((res, op) => res || history.includes(op), false);
+// }
+
 export const displayReducer = function (state = initialState, action: any) {
   switch (action.type) {
     case UPDATE: {
       const updateDisplay = action.payload;
       console.log(math.evaluate("(5+7)*3"));
 
-      // dont update if one decimal is already present in display value. return state
       if (
         (_.toString(state.display).includes(",") &&
           updateDisplay.input === ",") ||
@@ -56,7 +46,7 @@ export const displayReducer = function (state = initialState, action: any) {
       else
         return {
           ...state,
-          // if display is at 0, normally from being cleared, or prev button was operator, overwrite 0 or value
+
           display:
             state.display == "0" || state.prevOp === "operator"
               ? updateDisplay.input
@@ -65,7 +55,6 @@ export const displayReducer = function (state = initialState, action: any) {
         };
     }
 
-    // when operator actions are fired, remove last entry if double operator used, set history as ongoing string.
     case ADD: {
       const history = () =>
         state.prevOp === "operator"
@@ -76,10 +65,8 @@ export const displayReducer = function (state = initialState, action: any) {
         ...state,
         display: state.display,
         history:
-          state.history == "0" && state.accumulated == "0"
+          state.history == "0"
             ? state.display + " + "
-            : state.accumulated != "0"
-            ? state.accumulated + " + "
             : history() + state.display + " + ",
         prevOp: "operator",
       };
@@ -95,10 +82,8 @@ export const displayReducer = function (state = initialState, action: any) {
         ...state,
         display: state.display,
         history:
-          state.history == "0" && state.accumulated == "0"
+          state.history == "0"
             ? state.display + " - "
-            : state.accumulated != "0"
-            ? state.accumulated + " - "
             : history() + state.display + " - ",
         prevOp: "operator",
       };
@@ -114,10 +99,8 @@ export const displayReducer = function (state = initialState, action: any) {
         ...state,
         display: state.display,
         history:
-          state.history == "0" && state.accumulated == "0"
+          state.history == "0"
             ? `(${state.display})` + " * "
-            : state.accumulated != "0"
-            ? `(${state.accumulated})` + " * "
             : `(${history() + state.display})` + " * ",
         prevOp: "operator",
       };
@@ -132,10 +115,8 @@ export const displayReducer = function (state = initialState, action: any) {
         ...state,
         display: state.display,
         history:
-          state.history == "0" && state.accumulated == "0"
+          state.history == "0"
             ? `(${state.display})` + " / "
-            : state.accumulated != "0"
-            ? `(${state.accumulated})` + " / "
             : `(${history() + state.display})` + " / ",
         prevOp: "operator",
       };
@@ -146,11 +127,10 @@ export const displayReducer = function (state = initialState, action: any) {
         ...state,
         display: "0",
         prevOp: "clear",
-        accumulated: "0",
         history: "0",
       };
     }
-    // equal will concat display to history to give current string. then Maths it from mathJS library.
+
     case EQUAL: {
       let states =
         state.history.replace(",", ".") + state.display.replace(",", ".");
@@ -162,7 +142,6 @@ export const displayReducer = function (state = initialState, action: any) {
           ...state,
           history: "0",
           display: "",
-          accumulated: "0",
           prevOp: "equal",
         };
       }
@@ -174,9 +153,8 @@ export const displayReducer = function (state = initialState, action: any) {
       } else {
         return {
           ...state,
-          history: math.round(maths, 4).toString(),
+          history: "0",
           display: math.round(maths, 4).toString(),
-          accumulated: maths.toString(),
           prevOp: "equal",
         };
       }
